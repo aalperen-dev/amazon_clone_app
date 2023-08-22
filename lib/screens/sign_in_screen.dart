@@ -1,3 +1,5 @@
+import 'package:amazon_clone_app/screens/sign_up_screen.dart';
+import 'package:amazon_clone_app/utils/color_themes.dart';
 import 'package:amazon_clone_app/utils/constans.dart';
 import 'package:amazon_clone_app/utils/utils.dart';
 import 'package:amazon_clone_app/widgets/custom_main_button.dart';
@@ -25,81 +27,122 @@ class _SignInScreenState extends State<SignInScreen> {
   Widget build(BuildContext context) {
     Size screenSize = Utils().getScreenSize();
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 10,
-          vertical: 20,
-        ),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Image.network(
-                amazonLogo,
-                height: screenSize.height * 0.10,
-              ),
-              Container(
-                padding: const EdgeInsets.all(25),
-                height: screenSize.height * 0.6,
-                width: screenSize.width * 0.8,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.grey,
-                    width: 1,
+      backgroundColor: Colors.white,
+      body: SingleChildScrollView(
+        child: SizedBox(
+          height: screenSize.height,
+          width: screenSize.width,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 10,
+              vertical: 20,
+            ),
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image.network(
+                    amazonLogo,
+                    height: screenSize.height * 0.10,
                   ),
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Sign-ın',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 32,
+                  Container(
+                    padding: const EdgeInsets.all(25),
+                    height: screenSize.height * 0.6,
+                    width: screenSize.width * 0.8,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.grey,
+                        width: 1,
                       ),
                     ),
-                    TextFieldWidget(
-                      hintText: 'Enter your e-mail',
-                      title: 'E-mail',
-                      controller: emailController,
-                      obscureText: false,
-                    ),
-                    TextFieldWidget(
-                      hintText: 'Enter your password',
-                      title: 'Password',
-                      controller: passwordController,
-                      obscureText: true,
-                    ),
-                    Align(
-                      alignment: Alignment.center,
-                      child: CustomMainButton(
-                        color: Colors.orange,
-                        isLoading: false,
-                        onPressed: () {},
-                        child: const Text(
-                          'Sign-In',
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Sign-in',
                           style: TextStyle(
-                            letterSpacing: 0.6,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 32,
                           ),
                         ),
+                        TextFieldWidget(
+                          hintText: 'Enter your e-mail',
+                          title: 'E-mail',
+                          controller: emailController,
+                          obscureText: false,
+                        ),
+                        TextFieldWidget(
+                          hintText: 'Enter your password',
+                          title: 'Password',
+                          controller: passwordController,
+                          obscureText: true,
+                        ),
+                        Align(
+                          alignment: Alignment.center,
+                          child: CustomMainButton(
+                            color: yellowColor,
+                            isLoading: false,
+                            onPressed: () {},
+                            child: const Text(
+                              'Sign-In',
+                              style: TextStyle(
+                                letterSpacing: 0.6,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          height: 1,
+                          color: Colors.grey,
+                        ),
                       ),
-                    )
-                  ],
-                ),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 10,
+                        ),
+                        child: Text(
+                          'New to Amazon?',
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                      ),
+                      Expanded(
+                        child: Container(
+                          height: 1,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ],
+                  ),
+                  CustomMainButton(
+                    color: Colors.grey[400]!,
+                    isLoading: false,
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (context) {
+                          return const SignupScreen();
+                        },
+                      ));
+                    },
+                    child: const Text(
+                      'Create an Account',
+                      style: TextStyle(
+                        letterSpacing: 0.6,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              CustomMainButton(
-                color: Colors.grey[400]!,
-                isLoading: false,
-                onPressed: () {},
-                child: Text(
-                  'Create an Amazon Account',
-                  style: TextStyle(letterSpacing: 0.6),
-                ),
-              ),
-            ],
+            ),
           ),
         ),
       ),

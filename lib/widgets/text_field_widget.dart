@@ -19,6 +19,26 @@ class TextFieldWidget extends StatefulWidget {
 }
 
 class _TextFieldWidgetState extends State<TextFieldWidget> {
+  FocusNode? focusNode;
+  bool isInFocus = false;
+  @override
+  void initState() {
+    super.initState();
+    focusNode = FocusNode();
+
+    focusNode?.addListener(() {
+      if (focusNode!.hasFocus) {
+        setState(() {
+          isInFocus = true;
+        });
+      } else {
+        setState(() {
+          isInFocus = false;
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -27,7 +47,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
       children: [
         Padding(
           padding: const EdgeInsets.only(
-            bottom: 10,
+            bottom: 15,
           ),
           child: Text(
             widget.title,
@@ -37,22 +57,42 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
             ),
           ),
         ),
-        TextField(
-          obscureText: widget.obscureText,
-          maxLines: 1,
-          decoration: InputDecoration(
-            hintText: widget.hintText,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(3),
-              borderSide: const BorderSide(
-                color: Colors.grey,
-                width: 1,
+        Container(
+          decoration: BoxDecoration(
+            boxShadow: [
+              isInFocus
+                  ? BoxShadow(
+                      color: Colors.orange.withOpacity(0.4),
+                      blurRadius: 8,
+                      spreadRadius: 2,
+                    )
+                  : BoxShadow(
+                      color: Colors.black.withOpacity(0.2),
+                      blurRadius: 8,
+                      spreadRadius: 2,
+                    ),
+            ],
+          ),
+          child: TextField(
+            focusNode: focusNode,
+            obscureText: widget.obscureText,
+            maxLines: 1,
+            decoration: InputDecoration(
+              filled: true,
+              fillColor: Colors.white,
+              hintText: widget.hintText,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(3),
+                borderSide: const BorderSide(
+                  color: Colors.grey,
+                  width: 1,
+                ),
               ),
-            ),
-            focusedBorder: const OutlineInputBorder(
-              borderSide: BorderSide(
-                width: 1,
-                color: Colors.orange,
+              focusedBorder: const OutlineInputBorder(
+                borderSide: BorderSide(
+                  width: 1,
+                  color: Colors.orange,
+                ),
               ),
             ),
           ),
