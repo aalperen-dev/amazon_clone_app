@@ -1,5 +1,6 @@
 import 'package:amazon_clone_app/screens/sign_in_screen.dart';
 import 'package:amazon_clone_app/utils/color_themes.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,7 @@ void main() async {
           appId: "1:1090340919443:web:3fcbe60ce682bc2cd7d566"),
     );
   } else {
-    Firebase.initializeApp();
+    await Firebase.initializeApp();
   }
   runApp(const AmazonClone());
 }
@@ -33,7 +34,29 @@ class AmazonClone extends StatelessWidget {
       theme: ThemeData.light().copyWith(
         scaffoldBackgroundColor: backgroundColor,
       ),
-      home: const SignInScreen(),
+      home: StreamBuilder(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, AsyncSnapshot<User?> user) {
+          if (user.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(
+                color: Colors.orange,
+              ),
+            );
+          } else if (user.hasData) {
+            return ElevatedButton(
+              onPressed: () {
+                FirebaseAuth.instance.signOut();
+              },
+              child: Text(
+                "sign out",
+              ),
+            );
+          } else {
+            return const SignInScreen();
+          }
+        },
+      ),
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:amazon_clone_app/resources/authentication_methods.dart';
 import 'package:amazon_clone_app/screens/sign_up_screen.dart';
 import 'package:amazon_clone_app/utils/color_themes.dart';
 import 'package:amazon_clone_app/utils/constans.dart';
@@ -16,6 +17,8 @@ class SignInScreen extends StatefulWidget {
 class _SignInScreenState extends State<SignInScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  bool isLoading = false;
+
   @override
   void dispose() {
     super.dispose();
@@ -84,8 +87,28 @@ class _SignInScreenState extends State<SignInScreen> {
                           alignment: Alignment.center,
                           child: CustomMainButton(
                             color: yellowColor,
-                            isLoading: false,
-                            onPressed: () {},
+                            isLoading: isLoading,
+                            onPressed: () async {
+                              setState(() {
+                                isLoading = true;
+                              });
+                              String output = await AuthMethods().signInUser(
+                                  email: emailController.text,
+                                  password: passwordController.text);
+                              setState(() {
+                                isLoading = false;
+                              });
+                              if (output == 'success') {
+                                // giriş yapılacak
+                                AuthMethods().signInUser(
+                                    email: emailController.text,
+                                    password: passwordController.text);
+                              } else {
+                                // hata
+                                Utils().showSnakBar(
+                                    context: context, content: output);
+                              }
+                            },
                             child: const Text(
                               'Sign-In',
                               style: TextStyle(
@@ -127,11 +150,14 @@ class _SignInScreenState extends State<SignInScreen> {
                     color: Colors.grey[400]!,
                     isLoading: false,
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(
-                        builder: (context) {
-                          return const SignupScreen();
-                        },
-                      ));
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return const SignupScreen();
+                          },
+                        ),
+                      );
                     },
                     child: const Text(
                       'Create an Account',

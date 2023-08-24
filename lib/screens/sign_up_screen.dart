@@ -1,3 +1,5 @@
+import 'package:amazon_clone_app/resources/authentication_methods.dart';
+import 'package:amazon_clone_app/screens/sign_in_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/color_themes.dart';
@@ -18,6 +20,10 @@ class _SignupScreenState extends State<SignupScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  bool isLoading = false;
+
+  //
+  AuthMethods authMethods = AuthMethods();
 
   @override
   void dispose() {
@@ -105,8 +111,36 @@ class _SignupScreenState extends State<SignupScreen> {
                               alignment: Alignment.center,
                               child: CustomMainButton(
                                 color: yellowColor,
-                                isLoading: false,
-                                onPressed: () {},
+                                isLoading: isLoading,
+                                onPressed: () async {
+                                  setState(() {
+                                    isLoading = true;
+                                  });
+                                  String output = await authMethods.signUpUser(
+                                    name: nameController.text,
+                                    address: addressController.text,
+                                    email: emailController.text,
+                                    password: passwordController.text,
+                                  );
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+                                  if (output == 'success') {
+                                    //
+                                    Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) {
+                                          return SignInScreen();
+                                        },
+                                      ),
+                                    );
+                                  } else {
+                                    // error
+                                    Utils().showSnakBar(
+                                        context: context, content: output);
+                                  }
+                                },
                                 child: const Text(
                                   'Sign-Up',
                                   style: TextStyle(
@@ -115,7 +149,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                   ),
                                 ),
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),
@@ -125,7 +159,14 @@ class _SignupScreenState extends State<SignupScreen> {
                     color: Colors.grey[400]!,
                     isLoading: false,
                     onPressed: () {
-                      Navigator.pop(context);
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return const SignInScreen();
+                          },
+                        ),
+                      );
                     },
                     child: const Text(
                       'Back',
