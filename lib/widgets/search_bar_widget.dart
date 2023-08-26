@@ -69,7 +69,7 @@ class SearchBarWidget extends StatelessWidget implements PreferredSizeWidget {
                   if (isReadOnly) {
                     Navigator.push(context, MaterialPageRoute(
                       builder: (context) {
-                        return SearchScreen();
+                        return const SearchScreen();
                       },
                     ));
                   }
