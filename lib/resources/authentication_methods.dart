@@ -1,6 +1,5 @@
 import 'package:amazon_clone_app/models/user_details_model.dart';
 import 'package:amazon_clone_app/resources/clouddirestore_methods.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthMethods {
