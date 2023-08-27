@@ -1,4 +1,4 @@
-import 'package:amazon_clone_app/utils/constans.dart';
+import 'package:amazon_clone_app/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 class CategoriesHorizontalListViewBar extends StatelessWidget {

@@ -3,7 +3,7 @@ import 'package:amazon_clone_app/screens/sign_in_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/color_themes.dart';
-import '../utils/constans.dart';
+import '../utils/constants.dart';
 import '../utils/utils.dart';
 import '../widgets/custom_main_button.dart';
 import '../widgets/text_field_widget.dart';

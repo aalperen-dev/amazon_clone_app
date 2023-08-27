@@ -1,7 +1,7 @@
 import 'package:amazon_clone_app/resources/authentication_methods.dart';
 import 'package:amazon_clone_app/screens/sign_up_screen.dart';
 import 'package:amazon_clone_app/utils/color_themes.dart';
-import 'package:amazon_clone_app/utils/constans.dart';
+import 'package:amazon_clone_app/utils/constants.dart';
 import 'package:amazon_clone_app/utils/utils.dart';
 import 'package:amazon_clone_app/widgets/custom_main_button.dart';
 import 'package:amazon_clone_app/widgets/text_field_widget.dart';

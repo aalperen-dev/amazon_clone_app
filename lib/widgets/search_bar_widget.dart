@@ -1,20 +1,19 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:amazon_clone_app/screens/search_screen.dart';
-import 'package:amazon_clone_app/utils/utils.dart';
 import 'package:flutter/material.dart';
 
+import 'package:amazon_clone_app/screens/search_screen.dart';
 import 'package:amazon_clone_app/utils/color_themes.dart';
-import 'package:amazon_clone_app/utils/constans.dart';
+import 'package:amazon_clone_app/utils/constants.dart';
+import 'package:amazon_clone_app/utils/utils.dart';
 
 class SearchBarWidget extends StatelessWidget implements PreferredSizeWidget {
   final bool isReadOnly;
   final bool hasBackButton;
   SearchBarWidget({
-    Key? key,
+    super.key,
     required this.isReadOnly,
     required this.hasBackButton,
-  })  : preferredSize = const Size.fromHeight(kAppBarHeight),
-        super(key: key);
+  }) : preferredSize = const Size.fromHeight(kAppBarHeight);
 
   @override
   final Size preferredSize;
