@@ -1,4 +1,5 @@
 import 'package:amazon_clone_app/screens/account_screen.dart';
+import 'package:amazon_clone_app/screens/cart_screen.dart';
 import 'package:amazon_clone_app/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -24,9 +25,7 @@ const List<String> categoriesList = [
 List<Widget> screens = const [
   HomeScreen(),
   AccountScreen(),
-  Center(
-    child: Text('cart'),
-  ),
+  CartScreen(),
   Center(
     child: Text('more'),
   ),
