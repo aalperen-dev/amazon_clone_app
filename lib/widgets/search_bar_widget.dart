@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:amazon_clone_app/screens/results_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:amazon_clone_app/screens/search_screen.dart';
@@ -63,14 +64,27 @@ class SearchBarWidget extends StatelessWidget implements PreferredSizeWidget {
                 ],
               ),
               child: TextField(
+                onSubmitted: (value) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return ResultScreen(query: value);
+                      },
+                    ),
+                  );
+                },
                 readOnly: isReadOnly,
                 onTap: () {
                   if (isReadOnly) {
-                    Navigator.push(context, MaterialPageRoute(
-                      builder: (context) {
-                        return const SearchScreen();
-                      },
-                    ));
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return const SearchScreen();
+                        },
+                      ),
+                    );
                   }
                 },
                 decoration: InputDecoration(

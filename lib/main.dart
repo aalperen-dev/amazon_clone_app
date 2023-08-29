@@ -1,6 +1,9 @@
 import 'package:amazon_clone_app/layout/screen_layout.dart';
+import 'package:amazon_clone_app/models/product_model.dart';
+import 'package:amazon_clone_app/screens/product_screen.dart';
 import 'package:amazon_clone_app/screens/sign_in_screen.dart';
 import 'package:amazon_clone_app/utils/color_themes.dart';
+import 'package:amazon_clone_app/utils/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
@@ -45,7 +48,19 @@ class AmazonClone extends StatelessWidget {
               ),
             );
           } else if (user.hasData) {
-            return const ScreenLayout();
+            // return const ScreenLayout();
+            return ProductScreen(
+              productModel: ProductModel(
+                  imgUrl: amazonLogoUrl,
+                  productName: 'deneme',
+                  cost: 9.9,
+                  discount: 50,
+                  uid: 'aabbc',
+                  sellerName: 'test',
+                  sellerUid: 'bbccdd',
+                  rating: 3,
+                  noOfRating: 5),
+            );
           } else {
             return const SignInScreen();
           }

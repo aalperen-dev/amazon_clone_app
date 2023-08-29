@@ -1,16 +1,17 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-
+import 'package:amazon_clone_app/models/product_model.dart';
 import 'package:amazon_clone_app/utils/color_themes.dart';
-import 'package:amazon_clone_app/utils/constants.dart';
 import 'package:amazon_clone_app/utils/utils.dart';
 import 'package:amazon_clone_app/widgets/custom_simple_rounded_button.dart';
 import 'package:amazon_clone_app/widgets/custom_square_button.dart';
 import 'package:amazon_clone_app/widgets/product_info_widget.dart';
 
 class CartItemWidget extends StatelessWidget {
+  final ProductModel product;
   const CartItemWidget({
     Key? key,
+    required this.product,
   }) : super(key: key);
 
   @override
@@ -42,15 +43,15 @@ class CartItemWidget extends StatelessWidget {
                   child: Align(
                     alignment: Alignment.topCenter,
                     child: Image.network(
-                      largeAds[1],
+                      product.imgUrl,
                     ),
                   ),
                 ),
                 // ürün bilgileri
-                const ProductInfoWidget(
-                  productName: 'test',
-                  cost: 15.05,
-                  sellerName: 'deneme',
+                ProductInfoWidget(
+                  productName: product.productName,
+                  cost: product.cost,
+                  sellerName: product.sellerName,
                 ),
               ],
             ),
