@@ -2,7 +2,7 @@ import 'package:amazon_clone_app/models/user_details_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class CloudFiresotreClass {
+class CloudFirestoreClass {
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
@@ -13,5 +13,18 @@ class CloudFiresotreClass {
         .collection('users')
         .doc(firebaseAuth.currentUser!.uid)
         .set(user.getJson());
+  }
+
+  Future getNameAndAddress() async {
+    DocumentSnapshot snap = await firebaseFirestore
+        .collection('users')
+        .doc(firebaseAuth.currentUser!.uid)
+        .get();
+
+    UserDetailsModel userModel = UserDetailsModel.getModelFromJson(
+      (snap.data()) as dynamic,
+    );
+    // print(snap.data());
+    return userModel;
   }
 }

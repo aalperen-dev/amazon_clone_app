@@ -1,3 +1,4 @@
+import 'package:amazon_clone_app/models/product_model.dart';
 import 'package:amazon_clone_app/screens/account_screen.dart';
 import 'package:amazon_clone_app/screens/cart_screen.dart';
 import 'package:amazon_clone_app/screens/home_screen.dart';
@@ -69,10 +70,77 @@ const String amazonLogo =
     "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/2560px-Amazon_logo.svg.png";
 
 List<Widget> testChildren = [
-  SimpleProductWidget(url: largeAds[0]),
-  SimpleProductWidget(url: categoryLogos[0]),
-  SimpleProductWidget(url: largeAds[0]),
-  SimpleProductWidget(url: categoryLogos[0]),
-  SimpleProductWidget(url: largeAds[0]),
-  SimpleProductWidget(url: categoryLogos[0]),
+  SimpleProductWidget(
+    productModel: ProductModel(
+      imgUrl: amazonLogo,
+      productName: 'productName',
+      cost: 9.99,
+      discount: 50,
+      uid: 'uid',
+      sellerName: 'sellerName',
+      sellerUid: 'sellerUid',
+      rating: 3,
+      noOfRating: 4,
+    ),
+  ),
+  SimpleProductWidget(
+    productModel: ProductModel(
+      imgUrl: amazonLogo,
+      productName: 'productName',
+      cost: 9.99,
+      discount: 50,
+      uid: 'uid',
+      sellerName: 'sellerName',
+      sellerUid: 'sellerUid',
+      rating: 3,
+      noOfRating: 4,
+    ),
+  ),
+  SimpleProductWidget(
+    productModel: ProductModel(
+      imgUrl: amazonLogo,
+      productName: 'productName',
+      cost: 9.99,
+      discount: 50,
+      uid: 'uid',
+      sellerName: 'sellerName',
+      sellerUid: 'sellerUid',
+      rating: 3,
+      noOfRating: 4,
+    ),
+  ),
+  SimpleProductWidget(
+    productModel: ProductModel(
+      imgUrl: amazonLogoUrl,
+      productName: 'productName',
+      cost: 9.99,
+      discount: 50,
+      uid: 'uid',
+      sellerName: 'sellerName',
+      sellerUid: 'sellerUid',
+      rating: 3,
+      noOfRating: 4,
+    ),
+  ),
+  SimpleProductWidget(
+    productModel: ProductModel(
+      imgUrl: amazonLogo,
+      productName: 'productName',
+      cost: 9.99,
+      discount: 50,
+      uid: 'uid',
+      sellerName: 'sellerName',
+      sellerUid: 'sellerUid',
+      rating: 3,
+      noOfRating: 4,
+    ),
+  ),
+];
+
+List<String> keysOfRating = [
+  "Very bad",
+  "Poor",
+  "Avarage",
+  "Good",
+  "Excellent",
 ];

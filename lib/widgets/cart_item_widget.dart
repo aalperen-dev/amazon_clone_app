@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:amazon_clone_app/screens/product_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:amazon_clone_app/models/product_model.dart';
 import 'package:amazon_clone_app/utils/color_themes.dart';
@@ -34,26 +35,40 @@ class CartItemWidget extends StatelessWidget {
         children: [
           Expanded(
             flex: 3,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                // ürün resmi
-                SizedBox(
-                  width: screenSize.width / 3,
-                  child: Align(
-                    alignment: Alignment.topCenter,
-                    child: Image.network(
-                      product.imgUrl,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return ProductScreen(
+                        productModel: product,
+                      );
+                    },
+                  ),
+                );
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  // ürün resmi
+                  SizedBox(
+                    width: screenSize.width / 3,
+                    child: Align(
+                      alignment: Alignment.topCenter,
+                      child: Image.network(
+                        product.imgUrl,
+                      ),
                     ),
                   ),
-                ),
-                // ürün bilgileri
-                ProductInfoWidget(
-                  productName: product.productName,
-                  cost: product.cost,
-                  sellerName: product.sellerName,
-                ),
-              ],
+                  // ürün bilgileri
+                  ProductInfoWidget(
+                    productName: product.productName,
+                    cost: product.cost,
+                    sellerName: product.sellerName,
+                  ),
+                ],
+              ),
             ),
           ),
           Expanded(

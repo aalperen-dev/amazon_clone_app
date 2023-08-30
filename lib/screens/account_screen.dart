@@ -1,10 +1,15 @@
+import 'package:amazon_clone_app/models/user_details_model.dart';
 import 'package:amazon_clone_app/utils/color_themes.dart';
 import 'package:amazon_clone_app/utils/constants.dart';
 import 'package:amazon_clone_app/utils/utils.dart';
 import 'package:amazon_clone_app/widgets/account_screen_app_bar.dart';
 import 'package:amazon_clone_app/widgets/custom_main_button.dart';
 import 'package:amazon_clone_app/widgets/products_showcase_list_view.dart';
+import 'package:amazon_clone_app/widgets/user_details_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/user_details_provider.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({super.key});
@@ -17,6 +22,7 @@ class _AccountScreenState extends State<AccountScreen> {
   @override
   Widget build(BuildContext context) {
     Size screenSize = Utils().getScreenSize();
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: const AccountScreenAppBar(),
@@ -105,6 +111,9 @@ class IntroductionWidgetAccountScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // provider
+    UserDetailsModel userDetails =
+        Provider.of<UserDetailsProvider>(context).userDetails;
     return Container(
       height: kAppBarHeight / 2,
       decoration: const BoxDecoration(
@@ -141,7 +150,7 @@ class IntroductionWidgetAccountScreen extends StatelessWidget {
                       ),
                     ),
                     TextSpan(
-                      text: 'Alperen',
+                      text: userDetails.name,
                       style: TextStyle(
                         color: Colors.grey[800],
                         fontSize: 25,

@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:amazon_clone_app/models/review_model.dart';
 import 'package:amazon_clone_app/models/user_details_model.dart';
 import 'package:amazon_clone_app/utils/color_themes.dart';
 import 'package:amazon_clone_app/utils/constants.dart';
@@ -7,6 +8,8 @@ import 'package:amazon_clone_app/widgets/cost_widget.dart';
 import 'package:amazon_clone_app/widgets/custom_main_button.dart';
 import 'package:amazon_clone_app/widgets/custom_simple_rounded_button.dart';
 import 'package:amazon_clone_app/widgets/rating_star_widget.dart';
+import 'package:amazon_clone_app/widgets/review_dialog.dart';
+import 'package:amazon_clone_app/widgets/review_widget.dart';
 import 'package:amazon_clone_app/widgets/search_bar_widget.dart';
 import 'package:amazon_clone_app/widgets/user_details_bar.dart';
 import 'package:flutter/material.dart';
@@ -82,6 +85,18 @@ class _ProductScreenState extends State<ProductScreen> {
                               ],
                             ),
                           ),
+
+                          // ürün resmi
+                          Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: Container(
+                              height: screenSize.height / 3.5,
+                              constraints: BoxConstraints(
+                                  maxHeight: screenSize.height / 3),
+                              child: Image.network(widget.productModel.imgUrl),
+                            ),
+                          ),
+                          //
                           const SizedBox(
                             height: kAppBarHeight / 2,
                           ),
@@ -117,8 +132,31 @@ class _ProductScreenState extends State<ProductScreen> {
                           spaceTool,
                           // yorum ekleme
                           CustomSimpleRoundedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return const ReviewDialog();
+                                },
+                              );
+                            },
                             text: 'Add a review for this product',
+                          ),
+                          // değerlendirme
+                          SizedBox(
+                            // height: screenSize.height,
+                            height: 20,
+                            child: ListView.builder(
+                              itemCount: 10,
+                              itemBuilder: (context, index) {
+                                return ReviewWidget(
+                                  review: ReviewModel(
+                                      senderName: 'test',
+                                      description: 'deneme',
+                                      rating: 2),
+                                );
+                              },
+                            ),
                           ),
                         ],
                       ),
@@ -129,10 +167,10 @@ class _ProductScreenState extends State<ProductScreen> {
             ),
             UserDetailsBar(
               offset: 0,
-              userDetails: UserDetailsModel(
-                name: 'Alp',
-                address: 'êsk',
-              ),
+              // userDetails: UserDetailsModel(
+              //   name: 'Alp',
+              //   address: 'êsk',
+              // ),
             ),
           ],
         ),

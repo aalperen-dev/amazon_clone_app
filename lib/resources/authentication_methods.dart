@@ -1,12 +1,12 @@
 import 'package:amazon_clone_app/models/user_details_model.dart';
-import 'package:amazon_clone_app/resources/clouddirestore_methods.dart';
+import 'package:amazon_clone_app/resources/cloudfirestore_methods.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthMethods {
   // firebase instance
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   //
-  CloudFiresotreClass cloudFiresotreClass = CloudFiresotreClass();
+  CloudFirestoreClass cloudFiresotreClass = CloudFirestoreClass();
   // kayıt methodu
   Future<String> signUpUser({
     required String name,
