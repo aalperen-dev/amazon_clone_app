@@ -1,4 +1,5 @@
 import 'package:amazon_clone_app/models/user_details_model.dart';
+import 'package:amazon_clone_app/screens/sell_screen.dart';
 import 'package:amazon_clone_app/utils/color_themes.dart';
 import 'package:amazon_clone_app/utils/constants.dart';
 import 'package:amazon_clone_app/utils/utils.dart';
@@ -50,7 +51,13 @@ class _AccountScreenState extends State<AccountScreen> {
                 child: CustomMainButton(
                   color: yellowColor,
                   isLoading: false,
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) {
+                        return const SellScreen();
+                      },
+                    ));
+                  },
                   child: const Text(
                     'Sell',
                     style: TextStyle(color: Colors.black),

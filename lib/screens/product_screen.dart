@@ -12,6 +12,7 @@ import 'package:amazon_clone_app/widgets/review_dialog.dart';
 import 'package:amazon_clone_app/widgets/review_widget.dart';
 import 'package:amazon_clone_app/widgets/search_bar_widget.dart';
 import 'package:amazon_clone_app/widgets/user_details_bar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:amazon_clone_app/models/product_model.dart';
@@ -132,45 +133,58 @@ class _ProductScreenState extends State<ProductScreen> {
                           spaceTool,
                           // yorum ekleme
                           CustomSimpleRoundedButton(
-                            onPressed: () {
-                              showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return const ReviewDialog();
-                                },
-                              );
-                            },
-                            text: 'Add a review for this product',
-                          ),
-                          // değerlendirme
-                          SizedBox(
-                            // height: screenSize.height,
-                            height: 20,
-                            child: ListView.builder(
-                              itemCount: 10,
-                              itemBuilder: (context, index) {
-                                return ReviewWidget(
-                                  review: ReviewModel(
-                                      senderName: 'test',
-                                      description: 'deneme',
-                                      rating: 2),
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return ReviewDialog(
+                                      productUid: widget.productModel.uid,
+                                    );
+                                  },
                                 );
                               },
-                            ),
-                          ),
+                              text: 'Add a review for this product'),
                         ],
+                      ),
+                    ),
+                    // değerlendirme
+                    SizedBox(
+                      height: screenSize.height,
+                      // height: 20,
+                      child: StreamBuilder(
+                        stream: FirebaseFirestore.instance
+                            .collection('products')
+                            .doc(widget.productModel.uid)
+                            .collection('reviews')
+                            .snapshots(),
+                        builder: (context,
+                            AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                                snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return Container();
+                          } else {
+                            return ListView.builder(
+                              itemCount: snapshot.data!.docs.length,
+                              itemBuilder: (context, index) {
+                                ReviewModel reviewModel =
+                                    ReviewModel.getModelFromJson(
+                                        json:
+                                            snapshot.data!.docs[index].data());
+
+                                return ReviewWidget(review: reviewModel);
+                              },
+                            );
+                          }
+                        },
                       ),
                     ),
                   ],
                 ),
               ),
             ),
-            UserDetailsBar(
+            const UserDetailsBar(
               offset: 0,
-              // userDetails: UserDetailsModel(
-              //   name: 'Alp',
-              //   address: 'êsk',
-              // ),
             ),
           ],
         ),

@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -42,5 +43,9 @@ class Utils {
     // }
 
     return file!.readAsBytes();
+  }
+
+  String getUid() {
+    return (100000 + Random().nextInt(100000)).toString();
   }
 }
