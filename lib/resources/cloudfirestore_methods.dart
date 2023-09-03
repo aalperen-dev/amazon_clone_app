@@ -133,4 +133,49 @@ class CloudFirestoreClass {
         .collection('reviews')
         .add(reviewModel.getJson());
   }
+
+  Future addProductToCart({required ProductModel productModel}) async {
+    await firebaseFirestore
+        .collection('users')
+        .doc(firebaseAuth.currentUser!.uid)
+        .collection('cart')
+        .doc(productModel.uid)
+        .set(productModel.getJson());
+  }
+
+  Future deleteProductFromCart({required String uid}) async {
+    await firebaseFirestore
+        .collection('users')
+        .doc(firebaseAuth.currentUser!.uid)
+        .collection('cart')
+        .doc(uid)
+        .delete();
+  }
+
+  Future buyAllItemsInCart() async {
+    QuerySnapshot<Map<String, dynamic>> snapshot = await firebaseFirestore
+        .collection('users')
+        .doc(firebaseAuth.currentUser!.uid)
+        .collection('cart')
+        .get();
+
+    for (var i = 0; i < snapshot.docs!.length; i++) {
+      ProductModel productModel =
+          ProductModel.getModelFromJson(json: snapshot.docs[i].data());
+
+      addProductsToOrders(productModel: productModel);
+    }
+  }
+
+  Future addProductsToOrders({
+    required ProductModel productModel,
+  }) async {
+    await firebaseFirestore
+        .collection('users')
+        .doc(firebaseAuth.currentUser!.uid)
+        .collection('orders')
+        .add(productModel.getJson());
+
+    await deleteProductFromCart(uid: productModel.uid);
+  }
 }

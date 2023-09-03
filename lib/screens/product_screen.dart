@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:amazon_clone_app/models/review_model.dart';
 import 'package:amazon_clone_app/models/user_details_model.dart';
+import 'package:amazon_clone_app/resources/cloudfirestore_methods.dart';
 import 'package:amazon_clone_app/utils/color_themes.dart';
 import 'package:amazon_clone_app/utils/constants.dart';
 import 'package:amazon_clone_app/utils/utils.dart';
@@ -124,7 +125,16 @@ class _ProductScreenState extends State<ProductScreen> {
                           CustomMainButton(
                             color: yellowColor,
                             isLoading: false,
-                            onPressed: () {},
+                            onPressed: () async {
+                              // ürünü sepete ekleme
+
+                              await CloudFirestoreClass().addProductToCart(
+                                productModel: widget.productModel,
+                              );
+
+                              Utils().showSnakBar(
+                                  context: context, content: 'Added to cart!');
+                            },
                             child: const Text(
                               'Add to Cart',
                               style: TextStyle(color: Colors.black),

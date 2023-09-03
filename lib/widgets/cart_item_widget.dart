@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:amazon_clone_app/resources/cloudfirestore_methods.dart';
 import 'package:amazon_clone_app/screens/product_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:amazon_clone_app/models/product_model.dart';
@@ -98,7 +99,21 @@ class CartItemWidget extends StatelessWidget {
                 ),
                 // arttırma
                 CustomSquareButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    await CloudFirestoreClass().addProductToCart(
+                      productModel: ProductModel(
+                        imgUrl: product.imgUrl,
+                        productName: product.productName,
+                        cost: product.cost,
+                        discount: product.discount,
+                        uid: Utils().getUid(),
+                        sellerName: product.sellerName,
+                        sellerUid: product.sellerUid,
+                        rating: product.rating,
+                        noOfRating: product.noOfRating,
+                      ),
+                    );
+                  },
                   color: backgroundColor,
                   dimension: 40,
                   child: const Icon(
@@ -118,7 +133,11 @@ class CartItemWidget extends StatelessWidget {
                   Row(
                     children: [
                       CustomSimpleRoundedButton(
-                          onPressed: () {}, text: 'Delete'),
+                          onPressed: () async {
+                            CloudFirestoreClass()
+                                .deleteProductFromCart(uid: product.uid);
+                          },
+                          text: 'Delete'),
                       const SizedBox(width: 5),
                       CustomSimpleRoundedButton(
                           onPressed: () {}, text: 'Save for later'),
