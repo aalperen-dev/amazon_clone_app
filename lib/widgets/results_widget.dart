@@ -1,3 +1,4 @@
+import 'package:amazon_clone_app/screens/product_screen.dart';
 import 'package:amazon_clone_app/utils/color_themes.dart';
 import 'package:amazon_clone_app/utils/utils.dart';
 import 'package:amazon_clone_app/widgets/cost_widget.dart';
@@ -16,65 +17,70 @@ class ResultWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     Size screenSize = Utils().getScreenSize();
     return GestureDetector(
-      onTap: () {},
-      child: Align(
-        alignment: Alignment.centerLeft,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 10,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                width: (screenSize.width / 3),
-                child: Image.network(product.imgUrl),
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ProductScreen(productModel: product),
+            ));
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 10,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              width: (screenSize.width / 4),
+              child: Image.network(
+                product.imgUrl,
               ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  bottom: 5,
-                ),
-                child: Text(
-                  product.productName,
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis,
-                ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(
+                bottom: 5,
               ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  bottom: 5,
-                ),
-                child: Row(
-                  children: [
-                    SizedBox(
-                      width: screenSize.width / 5,
-                      child: FittedBox(
-                        child: RatingStarWidget(rating: product.rating),
+              child: Text(
+                product.productName,
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(
+                bottom: 5,
+              ),
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: screenSize.width / 5,
+                    child: FittedBox(
+                      child: RatingStarWidget(rating: product.rating),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10),
+                    child: Text(
+                      product.noOfRating.toString(),
+                      style: const TextStyle(
+                        color: activeCyanColor,
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10),
-                      child: Text(
-                        product.noOfRating.toString(),
-                        style: const TextStyle(
-                          color: activeCyanColor,
-                        ),
-                      ),
-                    )
-                  ],
+                  )
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 20,
+              child: FittedBox(
+                child: CostWidget(
+                  color: Colors.black,
+                  cost: product.cost,
                 ),
               ),
-              SizedBox(
-                height: 20,
-                child: FittedBox(
-                  child: CostWidget(
-                    color: Colors.red,
-                    cost: product.cost,
-                  ),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

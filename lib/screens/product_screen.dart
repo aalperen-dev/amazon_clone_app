@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:amazon_clone_app/models/review_model.dart';
 import 'package:amazon_clone_app/models/user_details_model.dart';
+import 'package:amazon_clone_app/providers/user_details_provider.dart';
 import 'package:amazon_clone_app/resources/cloudfirestore_methods.dart';
 import 'package:amazon_clone_app/utils/color_themes.dart';
 import 'package:amazon_clone_app/utils/constants.dart';
@@ -17,6 +18,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:amazon_clone_app/models/product_model.dart';
+import 'package:provider/provider.dart';
 
 class ProductScreen extends StatefulWidget {
   final ProductModel productModel;
@@ -114,7 +116,19 @@ class _ProductScreenState extends State<ProductScreen> {
                           CustomMainButton(
                             color: Colors.orange,
                             isLoading: false,
-                            onPressed: () {},
+                            onPressed: () async {
+                              await CloudFirestoreClass().addProductsToOrders(
+                                productModel: widget.productModel,
+                                userDetailsModel:
+                                    Provider.of<UserDetailsProvider>(
+                                  context,
+                                  listen: false,
+                                ).userDetails,
+                              );
+
+                              Utils().showSnakBar(
+                                  context: context, content: 'Done');
+                            },
                             child: const Text(
                               'Buy Now',
                               style: TextStyle(color: Colors.black),

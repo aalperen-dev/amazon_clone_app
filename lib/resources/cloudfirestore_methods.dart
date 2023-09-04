@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:amazon_clone_app/models/order_requests_model.dart';
 import 'package:amazon_clone_app/models/product_model.dart';
 import 'package:amazon_clone_app/models/review_model.dart';
 import 'package:amazon_clone_app/models/user_details_model.dart';
@@ -152,7 +153,9 @@ class CloudFirestoreClass {
         .delete();
   }
 
-  Future buyAllItemsInCart() async {
+  Future buyAllItemsInCart({
+    required UserDetailsModel userDetailsModel,
+  }) async {
     QuerySnapshot<Map<String, dynamic>> snapshot = await firebaseFirestore
         .collection('users')
         .doc(firebaseAuth.currentUser!.uid)
@@ -163,12 +166,19 @@ class CloudFirestoreClass {
       ProductModel productModel =
           ProductModel.getModelFromJson(json: snapshot.docs[i].data());
 
-      addProductsToOrders(productModel: productModel);
+      addProductsToOrders(
+        productModel: productModel,
+        userDetailsModel: userDetailsModel,
+      );
+      await deleteProductFromCart(
+        uid: productModel.uid,
+      );
     }
   }
 
   Future addProductsToOrders({
     required ProductModel productModel,
+    required UserDetailsModel userDetailsModel,
   }) async {
     await firebaseFirestore
         .collection('users')
@@ -176,6 +186,23 @@ class CloudFirestoreClass {
         .collection('orders')
         .add(productModel.getJson());
 
-    await deleteProductFromCart(uid: productModel.uid);
+    await sendOrderRequest(
+        productModel: productModel, userDetailsModel: userDetailsModel);
+  }
+
+  Future sendOrderRequest({
+    required ProductModel productModel,
+    required UserDetailsModel userDetailsModel,
+  }) async {
+    OrderRequestsModel orderRequestsModel = OrderRequestsModel(
+      orderName: productModel.productName,
+      buyersAddress: userDetailsModel.address,
+    );
+
+    await firebaseFirestore
+        .collection('users')
+        .doc(productModel.sellerUid)
+        .collection('orderRequests')
+        .add(orderRequestsModel.getJson());
   }
 }

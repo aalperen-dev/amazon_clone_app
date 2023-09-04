@@ -1,3 +1,5 @@
+import 'package:amazon_clone_app/models/order_requests_model.dart';
+import 'package:amazon_clone_app/models/product_model.dart';
 import 'package:amazon_clone_app/models/user_details_model.dart';
 import 'package:amazon_clone_app/screens/sell_screen.dart';
 import 'package:amazon_clone_app/utils/color_themes.dart';
@@ -6,7 +8,11 @@ import 'package:amazon_clone_app/utils/utils.dart';
 import 'package:amazon_clone_app/widgets/account_screen_app_bar.dart';
 import 'package:amazon_clone_app/widgets/custom_main_button.dart';
 import 'package:amazon_clone_app/widgets/products_showcase_list_view.dart';
+import 'package:amazon_clone_app/widgets/simple_product_widget.dart';
 import 'package:amazon_clone_app/widgets/user_details_bar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -39,9 +45,11 @@ class _AccountScreenState extends State<AccountScreen> {
                 child: CustomMainButton(
                   color: Colors.orange,
                   isLoading: false,
-                  onPressed: () {},
+                  onPressed: () {
+                    FirebaseAuth.instance.signOut();
+                  },
                   child: const Text(
-                    'Sign In',
+                    'Sign Out',
                     style: TextStyle(color: Colors.black),
                   ),
                 ),
@@ -64,9 +72,33 @@ class _AccountScreenState extends State<AccountScreen> {
                   ),
                 ),
               ),
-              ProductsShowcaseListView(
-                title: 'Your Orders',
-                children: testChildren,
+              FutureBuilder(
+                future: FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(FirebaseAuth.instance.currentUser!.uid)
+                    .collection('orders')
+                    .get(),
+                builder: (context,
+                    AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                        snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Container();
+                  } else {
+                    List<Widget> children = [];
+                    for (var i = 0; i < snapshot.data!.docs.length; i++) {
+                      ProductModel productModel = ProductModel.getModelFromJson(
+                          json: snapshot.data!.docs[i].data());
+
+                      children
+                          .add(SimpleProductWidget(productModel: productModel));
+                    }
+
+                    return ProductsShowcaseListView(
+                      title: 'Your Orders',
+                      children: children,
+                    );
+                  }
+                },
               ),
               const Padding(
                 padding: EdgeInsets.all(15.0),
@@ -82,24 +114,49 @@ class _AccountScreenState extends State<AccountScreen> {
                 ),
               ),
               Expanded(
-                child: ListView.builder(
-                  itemCount: 5,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      title: const Text(
-                        'Order: Black Shoe',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      subtitle: const Text('Address: Somewhere....'),
-                      trailing: IconButton(
-                        onPressed: () {},
-                        icon: const Icon(
-                          Icons.check,
-                        ),
-                      ),
-                    );
+                child: StreamBuilder(
+                  stream: FirebaseFirestore.instance
+                      .collection('users')
+                      .doc(FirebaseAuth.instance.currentUser!.uid)
+                      .collection('orderRequests')
+                      .snapshots(),
+                  builder: (context,
+                      AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                          snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Container();
+                    } else {
+                      return ListView.builder(
+                        itemCount: snapshot.data!.docs.length,
+                        itemBuilder: (context, index) {
+                          OrderRequestsModel orderRequestsModel =
+                              OrderRequestsModel.getModelFromJson(
+                                  json: snapshot.data!.docs[index].data());
+                          return ListTile(
+                            title: Text(
+                              'Order: ${orderRequestsModel.orderName}',
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            subtitle: Text(
+                              'Address: ${orderRequestsModel.buyersAddress}',
+                            ),
+                            trailing: IconButton(
+                              onPressed: () async {
+                                FirebaseFirestore.instance
+                                    .collection('users')
+                                    .doc(FirebaseAuth.instance.currentUser!.uid)
+                                    .collection('orderRequests')
+                                    .doc(snapshot.data!.docs[index].id)
+                                    .delete();
+                              },
+                              icon: const Icon(Icons.check),
+                            ),
+                          );
+                        },
+                      );
+                    }
                   },
                 ),
               ),
