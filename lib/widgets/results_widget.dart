@@ -19,10 +19,11 @@ class ResultWidget extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ProductScreen(productModel: product),
-            ));
+          context,
+          MaterialPageRoute(
+            builder: (context) => ProductScreen(productModel: product),
+          ),
+        );
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(

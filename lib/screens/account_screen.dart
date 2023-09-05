@@ -9,10 +9,8 @@ import 'package:amazon_clone_app/widgets/account_screen_app_bar.dart';
 import 'package:amazon_clone_app/widgets/custom_main_button.dart';
 import 'package:amazon_clone_app/widgets/products_showcase_list_view.dart';
 import 'package:amazon_clone_app/widgets/simple_product_widget.dart';
-import 'package:amazon_clone_app/widgets/user_details_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

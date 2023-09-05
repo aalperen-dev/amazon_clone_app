@@ -1,3 +1,4 @@
+import 'package:amazon_clone_app/screens/search_screen.dart';
 import 'package:amazon_clone_app/utils/color_themes.dart';
 import 'package:amazon_clone_app/utils/constants.dart';
 import 'package:amazon_clone_app/utils/utils.dart';
@@ -47,7 +48,13 @@ class AccountScreenAppBar extends StatelessWidget
                 ),
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SearchScreen(),
+                      ));
+                },
                 icon: const Icon(
                   Icons.search_outlined,
                   color: Colors.black,

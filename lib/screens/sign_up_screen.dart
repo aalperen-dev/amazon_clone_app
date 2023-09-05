@@ -127,18 +127,21 @@ class _SignupScreenState extends State<SignupScreen> {
                                   });
                                   if (output == 'success') {
                                     //
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (_) {
-                                          return const SignInScreen();
-                                        },
-                                      ),
-                                    );
+                                    if (context.mounted) {
+                                      Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (_) {
+                                            return const SignInScreen();
+                                          },
+                                        ),
+                                      );
+                                    }
                                   } else {
-                                    // error
-                                    Utils().showSnakBar(
-                                        context: context, content: output);
+                                    if (context.mounted) {
+                                      Utils().showSnakBar(
+                                          context: context, content: output);
+                                    }
                                   }
                                 },
                                 child: const Text(

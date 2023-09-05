@@ -1,6 +1,4 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:amazon_clone_app/models/review_model.dart';
-import 'package:amazon_clone_app/models/user_details_model.dart';
 import 'package:amazon_clone_app/providers/user_details_provider.dart';
 import 'package:amazon_clone_app/resources/cloudfirestore_methods.dart';
 import 'package:amazon_clone_app/utils/color_themes.dart';
@@ -125,9 +123,10 @@ class _ProductScreenState extends State<ProductScreen> {
                                   listen: false,
                                 ).userDetails,
                               );
-
-                              Utils().showSnakBar(
-                                  context: context, content: 'Done');
+                              if (context.mounted) {
+                                Utils().showSnakBar(
+                                    context: context, content: 'Done');
+                              }
                             },
                             child: const Text(
                               'Buy Now',
@@ -145,9 +144,11 @@ class _ProductScreenState extends State<ProductScreen> {
                               await CloudFirestoreClass().addProductToCart(
                                 productModel: widget.productModel,
                               );
-
-                              Utils().showSnakBar(
-                                  context: context, content: 'Added to cart!');
+                              if (context.mounted) {
+                                Utils().showSnakBar(
+                                    context: context,
+                                    content: 'Added to cart!');
+                              }
                             },
                             child: const Text(
                               'Add to Cart',

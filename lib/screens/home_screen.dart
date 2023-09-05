@@ -1,4 +1,3 @@
-import 'package:amazon_clone_app/models/user_details_model.dart';
 import 'package:amazon_clone_app/resources/cloudfirestore_methods.dart';
 import 'package:amazon_clone_app/utils/constants.dart';
 import 'package:amazon_clone_app/widgets/banner_ad_widget.dart';

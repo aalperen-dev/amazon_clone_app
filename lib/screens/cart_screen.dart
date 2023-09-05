@@ -1,5 +1,4 @@
 import 'package:amazon_clone_app/models/product_model.dart';
-import 'package:amazon_clone_app/models/user_details_model.dart';
 import 'package:amazon_clone_app/providers/user_details_provider.dart';
 import 'package:amazon_clone_app/resources/cloudfirestore_methods.dart';
 import 'package:amazon_clone_app/utils/color_themes.dart';
@@ -68,8 +67,10 @@ class _CartScreenState extends State<CartScreen> {
                                 listen: false,
                               ).userDetails,
                             );
-                            Utils().showSnakBar(
-                                context: context, content: 'done!');
+                            if (context.mounted) {
+                              Utils().showSnakBar(
+                                  context: context, content: 'done!');
+                            }
                           },
                           child: Text(
                             'Proceed to buy (${snapshot.data!.docs.length}) items',

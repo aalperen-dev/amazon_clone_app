@@ -193,12 +193,16 @@ class _SellScreenState extends State<SellScreen> {
 
                               //
                               if (output == 'success') {
-                                Utils().showSnakBar(
-                                    context: context,
-                                    content: 'Product posted!');
+                                if (context.mounted) {
+                                  Utils().showSnakBar(
+                                      context: context,
+                                      content: 'Product posted!');
+                                }
                               } else {
-                                Utils().showSnakBar(
-                                    context: context, content: output);
+                                if (context.mounted) {
+                                  Utils().showSnakBar(
+                                      context: context, content: output);
+                                }
                               }
                             },
                             child: const Text(

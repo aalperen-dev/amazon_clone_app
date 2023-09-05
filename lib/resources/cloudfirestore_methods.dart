@@ -8,7 +8,6 @@ import 'package:amazon_clone_app/utils/utils.dart';
 import 'package:amazon_clone_app/widgets/simple_product_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
@@ -133,6 +132,11 @@ class CloudFirestoreClass {
         .doc(productUid)
         .collection('reviews')
         .add(reviewModel.getJson());
+
+    await changeAvgRating(
+      productUid: productUid,
+      reviewModel: reviewModel,
+    );
   }
 
   Future addProductToCart({required ProductModel productModel}) async {
@@ -162,7 +166,7 @@ class CloudFirestoreClass {
         .collection('cart')
         .get();
 
-    for (var i = 0; i < snapshot.docs!.length; i++) {
+    for (var i = 0; i < snapshot.docs.length; i++) {
       ProductModel productModel =
           ProductModel.getModelFromJson(json: snapshot.docs[i].data());
 
@@ -204,5 +208,26 @@ class CloudFirestoreClass {
         .doc(productModel.sellerUid)
         .collection('orderRequests')
         .add(orderRequestsModel.getJson());
+  }
+
+  Future changeAvgRating({
+    required String productUid,
+    required ReviewModel reviewModel,
+  }) async {
+    DocumentSnapshot snapshot = await FirebaseFirestore.instance
+        .collection('products')
+        .doc(productUid)
+        .get();
+
+    ProductModel productModel =
+        ProductModel.getModelFromJson(json: (snapshot.data() as dynamic));
+
+    int currentRating = productModel.rating;
+    int newRating = (currentRating + reviewModel.rating) ~/ 2;
+
+    await FirebaseFirestore.instance
+        .collection('products')
+        .doc(productUid)
+        .update({'rating': newRating});
   }
 }

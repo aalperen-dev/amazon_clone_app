@@ -104,9 +104,10 @@ class _SignInScreenState extends State<SignInScreen> {
                                     email: emailController.text,
                                     password: passwordController.text);
                               } else {
-                                // hata
-                                Utils().showSnakBar(
-                                    context: context, content: output);
+                                if (context.mounted) {
+                                  Utils().showSnakBar(
+                                      context: context, content: output);
+                                }
                               }
                             },
                             child: const Text(
